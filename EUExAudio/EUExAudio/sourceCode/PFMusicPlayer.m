@@ -26,6 +26,7 @@ AVAudioPlayer * currentPlayer;
 		if ([currentPlayer isPlaying]) {
 			[currentPlayer stop];
 		}
+        currentPlayer.delegate = nil;
 		currentPlayer = nil; 
 	}
     
@@ -89,6 +90,7 @@ AVAudioPlayer * currentPlayer;
 	BOOL result;
 	if (currentPlayer) {
 		[currentPlayer stop];
+        currentPlayer.delegate = nil;
 		currentPlayer = nil;
 	}
 	NSFileManager * fmanager = [NSFileManager defaultManager];
@@ -98,6 +100,7 @@ AVAudioPlayer * currentPlayer;
 		result = NO;
 	}	
 	currentPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:inPath] error:nil];
+    currentPlayer.delegate = self;
 	[currentPlayer prepareToPlay];
 	[currentPlayer play];
 	return result;
@@ -150,4 +153,16 @@ AVAudioPlayer * currentPlayer;
     }
     
 }
+
+- (void)dealloc
+{
+    if (currentPlayer) {
+        if ([currentPlayer isPlaying]) {
+            [currentPlayer stop];
+        }
+        currentPlayer.delegate = nil;
+        currentPlayer = nil;
+    }
+}
+
 @end

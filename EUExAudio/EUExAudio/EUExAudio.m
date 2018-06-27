@@ -48,6 +48,12 @@
 }
 
 -(void)dealloc{
+    
+    currentRecorder.delegate = nil;
+    player.delegate = nil;
+    
+    player = nil;
+    
     pfPlayer = nil;
     currentRecorder = nil;
     musicPlayer  = nil;
@@ -907,6 +913,7 @@ static void completionCallback(SystemSoundID  mySSID, void* myself) {
 }
 
 -(void)clean{
+    
     currentRecorder = nil;
     recordFilePath  = nil;
     pfPlayer = nil;
